@@ -3,7 +3,7 @@
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/mystificator/prodigy-program.git](https://github.com/mystificator/prodigy-program.git)
+    git clone https://github.com/mystificator/prodigy-program.git
     cd prodigy-program
     ```
 
