@@ -22,20 +22,14 @@ class SchedulesController < ApplicationController
             completed_activity_ids = current_user.user_activity_progresses.where(schedule_id: schedule.id).pluck(:activity_id)
             remaining_activities_count = schedule.activities.where.not(id: completed_activity_ids).count
 
-            schedule_data = {
+            render json: {
                 day: schedule.day,
-                activities: schedule.activities.map do |activity|
-                    {
-                        id: activity.id,
-                        name: activity.name,
-                        category: activity.category.name,
-                        completed: completed_activity_ids.include?(activity.id)
-                    }
-                end,
+                activities: ActivitySerializer.new(
+                    schedule.activities, 
+                    params: { completed_activity_ids: completed_activity_ids }
+                ).serializable_hash[:data],
                 remaining_count: remaining_activities_count
-            }
-
-            render json: schedule_data, status: :ok
+            }, status: :ok
         else
             render json: { error: "Schedule not found for this day" }, status: :not_found
         end

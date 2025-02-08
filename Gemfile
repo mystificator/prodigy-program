@@ -55,3 +55,5 @@ gem "devise-jwt"
 gem "jsonapi-serializer"
 
 gem "byebug"
+
+gem 'active_model_serializers'
