@@ -3,6 +3,19 @@ class SchedulesController < ApplicationController
 
     def show
         day = params[:day].to_i
+        direction = params[:direction]
+
+        if direction.present?
+            if direction == "next"
+                day += 1
+            elsif direction == "prev"
+                day -= 1
+            end
+
+            day = 1 if day < 1
+            day = 30 if day > 30
+        end
+
         schedule = Schedule.includes(activities: :category).find_by(day: day)
 
         if schedule
