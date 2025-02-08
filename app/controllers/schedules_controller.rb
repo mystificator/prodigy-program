@@ -7,7 +7,7 @@ class SchedulesController < ApplicationController
 
         if schedule
             completed_activity_ids = current_user.user_activity_progresses.where(schedule_id: schedule.id).pluck(:activity_id)
-            remaining_activities_count = schedule.activities.where.not(id: completed_activity_ids).remaining_activities_count
+            remaining_activities_count = schedule.activities.where.not(id: completed_activity_ids).count
 
             schedule_data = {
                 day: schedule.day,
@@ -25,6 +25,31 @@ class SchedulesController < ApplicationController
             render json: schedule_data, status: :ok
         else
             render json: { error: "Schedule not found for this day" }, status: :not_found
+        end
+    end
+
+
+    def complete_activity
+        day = params[:day].to_i
+        activity_id = params[:activity_id].to_i
+
+        schedule = Schedule.find_by(day: day)
+        return render json: { error: "Schedule not found for this day" }, status: :not_found unless schedule
+        
+        activity = schedule.activities.find_by(id: activity_id)
+        return render json: { error: "Activity not found in the schedule" }, status: :not_found unless activity
+
+        existing_completion = current_user.user_activity_progresses.find_by(schedule_id: schedule.id, activity_id: activity_id)
+
+        if existing_completion
+            render json: { error: "Activity already completed" }, status: :unprocessable_entity
+        else
+            completion = current_user.user_activity_progresses.new(schedule_id: schedule.id, activity_id: activity_id)
+            if completion.save
+              render json: { message: "Activity marked as completed" }, status: :ok
+            else
+              render json: { errors: completion.errors.full_messages }, status: :unprocessable_entity
+            end
         end
     end
 end

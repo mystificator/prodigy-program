@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :schedules, only: [] do
     collection do
       get :show
+      post :complete_activity
     end
   end
 end
