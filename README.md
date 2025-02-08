@@ -33,6 +33,26 @@
 
 ## API Endpoints
 
+- **POST /signup:** User Signup.
+
+  - **Parameters:**
+    - `name`: User's name.
+    - `email`: User's email address.
+    - `password`: User's password.
+  - **Response:** Returns a JWT token upon successful registration.
+
+- **POST /login:** User login.
+
+  - **Parameters:**
+    - `email`: User's email address.
+    - `password`: User's password.
+  - **Response:** Returns a JWT token upon successful authentication.
+
+- **DELETE /logout:** User logout.
+
+  - **Headers:**
+    - `Authorization: Bearer <JWT_TOKEN>`
+
 - **GET /schedules/:day** Retrieves the schedule for a specific day.
 
   - **Parameters:**
