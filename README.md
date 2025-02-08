@@ -1,24 +1,49 @@
-# README
+## Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1.  **Clone the repository:**
 
-Things you may want to cover:
+    ```bash
+    git clone [https://github.com/mystificator/prodigy-program.git](https://github.com/mystificator/prodigy-program.git)
+    cd prodigy-program
+    ```
 
-* Ruby version
+2.  **Install dependencies:**
 
-* System dependencies
+    ```bash
+    bundle install
+    ```
 
-* Configuration
+3.  **Create and migrate the database:**
 
-* Database creation
+    ```bash
+    rails db:create
+    rails db:migrate
+    ```
 
-* Database initialization
+4.  **Seed the database:**
 
-* How to run the test suite
+    ```bash
+    rails db:seed
+    ```
 
-* Services (job queues, cache servers, search engines, etc.)
+5.  **Start the Rails server:**
+    ```bash
+    rails server
+    ```
 
-* Deployment instructions
+## API Endpoints
 
-* ...
+- **GET /schedules/:day** Retrieves the schedule for a specific day.
+
+  - **Parameters:**
+    - `day`: The day number (1-30).
+    - `direction` (optional): "next" or "prev" for navigating to the next or previous day.
+  - **Headers:**
+    - `Authorization: Bearer <TOKEN>`
+
+- **POST /schedules/complete_activity?day&activity_id** Marks an activity as complete for the current user in a schedule.
+  - **Parameters:**
+    - `day`: The day number.
+    - `activity_id`: The ID of the activity.
+  - **Headers:**
+    - `Authorization: Bearer <TOKEN>`
