@@ -45,3 +45,8 @@ group :development do
   # gem "spring"
 end
 
+gem "devise"
+gem "devise-jwt"
+gem "jsonapi-serializer"
+
+gem "byebug"
