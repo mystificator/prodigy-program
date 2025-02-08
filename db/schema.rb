@@ -10,7 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_08_070633) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_08_083340) do
+  create_table "activities", force: :cascade do |t|
+    t.string "name"
+    t.string "frequency"
+    t.string "duration"
+    t.integer "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_activities_on_category_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scheduled_activities", force: :cascade do |t|
+    t.integer "schedule_id", null: false
+    t.integer "activity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_scheduled_activities_on_activity_id"
+    t.index ["schedule_id"], name: "index_scheduled_activities_on_schedule_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer "day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_activity_progresses", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "activity_id", null: false
+    t.integer "schedule_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_user_activity_progresses_on_activity_id"
+    t.index ["schedule_id"], name: "index_user_activity_progresses_on_schedule_id"
+    t.index ["user_id"], name: "index_user_activity_progresses_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -26,4 +68,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_070633) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "activities", "categories"
+  add_foreign_key "scheduled_activities", "activities"
+  add_foreign_key "scheduled_activities", "schedules"
+  add_foreign_key "user_activity_progresses", "activities"
+  add_foreign_key "user_activity_progresses", "schedules"
+  add_foreign_key "user_activity_progresses", "users"
 end
