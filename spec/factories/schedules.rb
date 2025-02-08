@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :schedule do
-    day { 1 }
+    day { rand(1..30) }
   end
 end

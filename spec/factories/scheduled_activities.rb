@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :scheduled_activity do
-    schedule { nil }
-    activity { nil }
+    schedule
+    activity
   end
 end
