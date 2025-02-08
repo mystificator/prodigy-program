@@ -1,4 +1,4 @@
 class Category < ApplicationRecord
-    has_many :activities, dependant: :destroy
+    has_many :activities, dependent: :destroy
     validates :name, presence: true, uniqueness: true
 end
