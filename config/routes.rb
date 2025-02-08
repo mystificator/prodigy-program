@@ -8,4 +8,10 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  resources :schedules, only: [] do
+    collection do
+      get :show
+    end
+  end
 end
